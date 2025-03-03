@@ -8,25 +8,20 @@ class AboutUsPage extends StatelessWidget {
       body: Column(
         children: [
           Container(
-            margin: EdgeInsets.fromLTRB(20, 40, 20, 20),
             decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.black,
-                width: 2.0,
-              ),
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(0), // Set border radius to 0
               color: Color(0xFFFDD8E7),
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.menu, color: Colors.deepPurple[400]),
-                    onPressed: () {
-
-                    },
+                  Builder(
+                    builder: (context) => IconButton(
+                      icon: Icon(Icons.menu, color: Colors.deepPurple[400]),
+                      onPressed: () => Scaffold.of(context).openDrawer(),
+                    ),
                   ),
                   Text(
                     'GLAMORA',
@@ -37,9 +32,10 @@ class AboutUsPage extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    icon: Icon(Icons.person_outline, color: Colors.deepPurple[400]),
+                    icon: Icon(Icons.person_outline,
+                        color: Colors.deepPurple[400]),
                     onPressed: () {
-
+                      Navigator.pushNamed(context, '/profile');
                     },
                   ),
                 ],
@@ -124,22 +120,37 @@ class AboutUsPage extends StatelessWidget {
                       children: <Widget>[
                         // Icon Facebook
                         IconButton(
-                          icon: Icon(Icons.facebook, color: Colors.blue, size: 40,),
-                          onPressed: (){
+                          icon: Icon(
+                            Icons.facebook,
+                            color: Colors.blue,
+                            size: 40,
+                          ),
+                          onPressed: () {
                             //TODO: Implement Link Facebook
                           },
                         ),
-                        Text('GLAMORA', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
+                        Text(
+                          'GLAMORA',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16),
+                        ),
                         SizedBox(width: 50),
 
                         // Icon Line
                         IconButton(
-                            icon: Image.asset('assets/images/line_logo.png', width: 40, height: 40,),
-                            onPressed: (){
+                            icon: Image.asset(
+                              'assets/images/line_logo.png',
+                              width: 40,
+                              height: 40,
+                            ),
+                            onPressed: () {
                               //TODO: Implement Link Line
-                            }
+                            }),
+                        Text(
+                          '@GLAMORA',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16),
                         ),
-                        Text('@GLAMORA', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
                       ],
                     ),
                   ],

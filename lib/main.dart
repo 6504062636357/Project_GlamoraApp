@@ -9,6 +9,7 @@ import 'package:untitled5/page/SignupPage.dart';
 import 'package:untitled5/page/AboutUsPage.dart';
 import 'package:untitled5/page/Register.dart';
 import 'package:untitled5/page/HomePage.dart';
+import 'package:untitled5/categoties/makeup/Rarbaeuty.dart'; // Import the ProductDetailPage
 
 void main() {
   runApp(MyApp());
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.pink,
       ),
-      home: SplashScreen(), // หน้าแรกเป็น SplashScreen
+      home: HomePage1(),
       routes: {
         '/status': (context) => StatusPage(),
         '/categories': (context) => CategoryPage(),
@@ -35,11 +36,11 @@ class MyApp extends StatelessWidget {
         '/signup': (context) => SignUpPage(),
         '/register': (context) => RegisterPage(),
         '/HomePage': (context) => HomePage1(),
+        '/productDetail': (context) => ProductDetailPage(), // Add the route
       },
     );
   }
 }
-
 
 class SplashScreen extends StatelessWidget {
   @override
@@ -49,7 +50,8 @@ class SplashScreen extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           // เมื่อโหลดเสร็จ -> ไปหน้า SignUp
-          Future.microtask(() => Navigator.pushReplacementNamed(context, '/signup'));
+          Future.microtask(
+              () => Navigator.pushReplacementNamed(context, '/signup'));
         }
 
         return Scaffold(

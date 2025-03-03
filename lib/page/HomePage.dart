@@ -6,6 +6,7 @@ import 'package:untitled5/page/BestSeller.dart';
 import 'package:untitled5/page/Categoties.dart';
 import 'package:untitled5/page/Promotions.dart';
 import 'package:untitled5/page/Status.dart';
+import 'package:untitled5/page/SearchResultsPage.dart'; // Import the new page
 
 void main() {
   runApp(MaterialApp(
@@ -23,7 +24,54 @@ void main() {
   ));
 }
 
-class HomePage1 extends StatelessWidget {
+class HomePage1 extends StatefulWidget {
+  @override
+  _HomePage1State createState() => _HomePage1State();
+}
+
+class _HomePage1State extends State<HomePage1> {
+  TextEditingController _searchController = TextEditingController();
+  List<Map<String, String>> _allItems = [
+    {"name": "Gorgina", "image": "assets/images/gorgina_lipstick.jpg"},
+    {"name": "Shiseido", "image": "assets/images/shiseido_lipstick.jpg"},
+    {"name": "Rare Beauty", "image": "assets/images/rare_beauty.jpg"},
+    // Add more items here
+  ];
+  List<Map<String, String>> _filteredItems = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _filteredItems = _allItems;
+    _searchController.addListener(_filterItems);
+  }
+
+  @override
+  void dispose() {
+    _searchController.removeListener(_filterItems);
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _filterItems() {
+    String query = _searchController.text.toLowerCase();
+    setState(() {
+      _filteredItems = _allItems
+          .where((item) => item["name"]!.toLowerCase().contains(query))
+          .toList();
+    });
+  }
+
+  void _onSearch() {
+    String query = _searchController.text;
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SearchResultsPage(query: query, items: _allItems),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,14 +82,15 @@ class HomePage1 extends StatelessWidget {
           children: [
             DrawerHeader(
               decoration: BoxDecoration(color: Color(0xFFFDD8E7)),
-              child: Text(
-                'Menu',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              child: Image.asset(
+                'assets/images/logo2.png', // Replace with your logo image path
+                fit: BoxFit.contain,
               ),
             ),
             _drawerItem(context, Icons.system_update, 'Status', '/status'),
             _drawerItem(context, Icons.category, 'Categories', '/categories'),
-            _drawerItem(context, Icons.local_offer, 'Promotions', '/promotions'),
+            _drawerItem(
+                context, Icons.local_offer, 'Promotions', '/promotions'),
             _drawerItem(context, Icons.star, 'Best Sellers', '/bestsellers'),
             _drawerItem(context, Icons.favorite, 'Beauty Tips', '/beautytips'),
             _drawerItem(context, Icons.info, 'About Us', '/about'),
@@ -51,14 +100,12 @@ class HomePage1 extends StatelessWidget {
       body: Column(
         children: [
           Container(
-            margin: EdgeInsets.fromLTRB(20, 40, 20, 20),
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.black, width: 2.0),
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(0), // Set border radius to 0
               color: Color(0xFFFDD8E7),
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -77,7 +124,8 @@ class HomePage1 extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    icon: Icon(Icons.person_outline, color: Colors.deepPurple[400]),
+                    icon: Icon(Icons.person_outline,
+                        color: Colors.deepPurple[400]),
                     onPressed: () {
                       Navigator.pushNamed(context, '/profile');
                     },
@@ -120,13 +168,37 @@ class HomePage1 extends StatelessWidget {
                         borderRadius: BorderRadius.circular(30),
                         color: Colors.white,
                       ),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: 'Search Your Product',
-                          prefixIcon: Icon(Icons.search),
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                        ),
+                      child: Column(
+                        children: [
+                          TextField(
+                            controller: _searchController,
+                            decoration: InputDecoration(
+                              hintText: 'Search Your Product',
+                              prefixIcon: Icon(Icons.search),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 15),
+                            ),
+                            onSubmitted: (value) => _onSearch(),
+                          ),
+                          if (_searchController.text.isNotEmpty)
+                            Container(
+                              height: 200,
+                              child: ListView.builder(
+                                itemCount: _filteredItems.length,
+                                itemBuilder: (context, index) {
+                                  return ListTile(
+                                    title: Text(_filteredItems[index]["name"]!),
+                                    onTap: () {
+                                      _searchController.text =
+                                          _filteredItems[index]["name"]!;
+                                      _onSearch();
+                                    },
+                                  );
+                                },
+                              ),
+                            ),
+                        ],
                       ),
                     ),
                     SizedBox(height: 20),
@@ -135,24 +207,26 @@ class HomePage1 extends StatelessWidget {
                       children: <Widget>[
                         Text(
                           'Best Sellers',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
-                        Icon(Icons.arrow_forward),
+                        IconButton(
+                          icon: Icon(Icons.arrow_forward),
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/bestsellers');
+                          },
+                        ),
                       ],
                     ),
                     SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        BestSellerItem(
-                          name: 'Gorgina',
-                          image: 'assets/images/gorgina_lipstick.jpg',
-                        ),
-                        BestSellerItem(
-                          name: 'Shiseido',
-                          image: 'assets/images/shiseido_lipstick.jpg',
-                        ),
-                      ],
+                      children: _allItems.map((item) {
+                        return BestSellerItem(
+                          name: item["name"]!,
+                          image: item["image"]!,
+                        );
+                      }).toList(),
                     ),
                   ],
                 ),
@@ -164,7 +238,8 @@ class HomePage1 extends StatelessWidget {
     );
   }
 
-  ListTile _drawerItem(BuildContext context, IconData icon, String title, String routeName) {
+  ListTile _drawerItem(
+      BuildContext context, IconData icon, String title, String routeName) {
     return ListTile(
       leading: Icon(icon, color: Colors.deepPurple),
       title: Text(title),
@@ -180,7 +255,8 @@ class BestSellerItem extends StatelessWidget {
   final String name;
   final String image;
 
-  const BestSellerItem({Key? key, required this.name, required this.image}) : super(key: key);
+  const BestSellerItem({Key? key, required this.name, required this.image})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -195,7 +271,7 @@ class BestSellerItem extends StatelessWidget {
         children: <Widget>[
           Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
           SizedBox(height: 5),
-          Image.asset(image, height: 100),
+          Image.network(image, height: 100),
         ],
       ),
     );
