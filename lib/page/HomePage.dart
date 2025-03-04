@@ -6,7 +6,10 @@ import 'package:untitled5/page/BestSeller.dart';
 import 'package:untitled5/page/Categoties.dart';
 import 'package:untitled5/page/Promotions.dart';
 import 'package:untitled5/page/Status.dart';
-import 'package:untitled5/page/SearchResultsPage.dart'; // Import the new page
+import 'package:untitled5/page/SearchResultsPage.dart';
+import 'package:untitled5/page/gorgina.dart';
+import 'package:untitled5/page/Shiseido.dart';
+import 'package:untitled5/page/rare_beauty.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -16,7 +19,7 @@ void main() {
       '/status': (context) => StatusPage(),
       '/categories': (context) => CategoryPage(),
       '/promotions': (context) => PromotionsPage(),
-      '/bestsellers': (context) => BestSellersPage(),
+      '/bestsellers': (context) => Bestseller(name: 'name', image: 'image',),
       '/beautytips': (context) => BeautyTipsPage(),
       '/about': (context) => AboutUsPage(),
       '/profile': (context) => MyProfilePage(),
@@ -35,7 +38,6 @@ class _HomePage1State extends State<HomePage1> {
     {"name": "Gorgina", "image": "assets/images/gorgina_lipstick.jpg"},
     {"name": "Shiseido", "image": "assets/images/shiseido_lipstick.jpg"},
     {"name": "Rare Beauty", "image": "assets/images/rare_beauty.jpg"},
-    // Add more items here
   ];
   List<Map<String, String>> _filteredItems = [];
 
@@ -76,6 +78,27 @@ class _HomePage1State extends State<HomePage1> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFF2CACA),
+      appBar: AppBar(
+        backgroundColor: Color(0xFFFDD8E7),
+        iconTheme: IconThemeData(color: Colors.deepPurple[400]),
+        title: Text(
+          'GLAMORA',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.deepPurple[400],
+          ),
+        ),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.person_outline, color: Colors.deepPurple[400]),
+            onPressed: () {
+              Navigator.pushNamed(context, '/profile');
+            },
+          ),
+        ],
+      ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -83,197 +106,161 @@ class _HomePage1State extends State<HomePage1> {
             DrawerHeader(
               decoration: BoxDecoration(color: Color(0xFFFDD8E7)),
               child: Image.asset(
-                'assets/images/logo2.png', // Replace with your logo image path
+                'assets/images/logo2.png',
                 fit: BoxFit.contain,
               ),
             ),
-            _drawerItem(context, Icons.system_update, 'Status', '/status'),
-            _drawerItem(context, Icons.category, 'Categories', '/categories'),
-            _drawerItem(
-                context, Icons.local_offer, 'Promotions', '/promotions'),
-            _drawerItem(context, Icons.star, 'Best Sellers', '/bestsellers'),
-            _drawerItem(context, Icons.favorite, 'Beauty Tips', '/beautytips'),
-            _drawerItem(context, Icons.info, 'About Us', '/about'),
+            _drawerItem(Icons.system_update, 'Status', '/status'),
+            _drawerItem(Icons.category, 'Categories', '/categories'),
+            _drawerItem(Icons.local_offer, 'Promotions', '/promotions'),
+            _drawerItem(Icons.star, 'Best Sellers', '/bestsellers'),
+            _drawerItem(Icons.favorite, 'Beauty Tips', '/beautytips'),
+            _drawerItem(Icons.info, 'About Us', '/about'),
           ],
         ),
       ),
-      body: Column(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(0), // Set border radius to 0
-              color: Color(0xFFFDD8E7),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Builder(
-                    builder: (context) => IconButton(
-                      icon: Icon(Icons.menu, color: Colors.deepPurple[400]),
-                      onPressed: () => Scaffold.of(context).openDrawer(),
-                    ),
-                  ),
-                  Text(
-                    'GLAMORA',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.deepPurple[400],
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.person_outline,
-                        color: Colors.deepPurple[400]),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/profile');
-                    },
-                  ),
-                ],
-              ),
-            ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              _buildBanner(),
+              SizedBox(height: 20),
+              _buildSearchBar(),
+              SizedBox(height: 20),
+              _buildBestSellersSection(),
+            ],
           ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                            offset: Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image.asset(
-                          'assets/images/lisa_lipstick.webp',
-                          width: double.infinity,
-                          height: 300,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: Colors.white,
-                      ),
-                      child: Column(
-                        children: [
-                          TextField(
-                            controller: _searchController,
-                            decoration: InputDecoration(
-                              hintText: 'Search Your Product',
-                              prefixIcon: Icon(Icons.search),
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 15),
-                            ),
-                            onSubmitted: (value) => _onSearch(),
-                          ),
-                          if (_searchController.text.isNotEmpty)
-                            Container(
-                              height: 200,
-                              child: ListView.builder(
-                                itemCount: _filteredItems.length,
-                                itemBuilder: (context, index) {
-                                  return ListTile(
-                                    title: Text(_filteredItems[index]["name"]!),
-                                    onTap: () {
-                                      _searchController.text =
-                                          _filteredItems[index]["name"]!;
-                                      _onSearch();
-                                    },
-                                  );
-                                },
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          'Best Sellers',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.arrow_forward),
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/bestsellers');
-                          },
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: _allItems.map((item) {
-                        return BestSellerItem(
-                          name: item["name"]!,
-                          image: item["image"]!,
-                        );
-                      }).toList(),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
 
-  ListTile _drawerItem(
-      BuildContext context, IconData icon, String title, String routeName) {
+  Widget _buildBanner() {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Image.asset(
+          'assets/images/lisa_lipstick.webp',
+          width: double.infinity,
+          height: 250,
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSearchBar() {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30),
+        color: Colors.white,
+      ),
+      child: TextField(
+        controller: _searchController,
+        decoration: InputDecoration(
+          hintText: 'Search Your Product',
+          prefixIcon: Icon(Icons.search),
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        ),
+        onSubmitted: (value) => _onSearch(),
+      ),
+    );
+  }
+
+  Widget _buildBestSellersSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              'Best Sellers',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            IconButton(
+              icon: Icon(Icons.arrow_forward),
+              onPressed: () {
+                Navigator.pushNamed(context, '/bestsellers');
+              },
+            ),
+          ],
+        ),
+        SizedBox(height: 10),
+        SizedBox(
+          height: 180,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: _allItems.length,
+            itemBuilder: (context, index) {
+              return Container(
+                margin: EdgeInsets.only(right: 10),
+                child: GestureDetector(
+                  onTap: () {
+                    // Navigate to the product detail page
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          // Determine which detail page to show based on the index
+                          switch (index) {
+                            case 0:
+                              return GorginaLipstickDetailPage(
+                                productName: _allItems[index]["name"]!,
+                                productImage: _allItems[index]["image"]!,
+                              );
+                            case 1:
+                              return ShiseidoLipstickDetailPage(
+                                productName: _allItems[index]["name"]!,
+                                productImage: _allItems[index]["image"]!,
+                              );
+                            case 2:
+                              return RareBeautyDetailPage(
+                                productName: _allItems[index]["name"]!,
+                                productImage: _allItems[index]["image"]!,
+                              );
+                            default:
+                              return Container(); // Or an error page
+                          }
+                        },
+                      ),
+                    );
+                  },
+                  child: Bestseller(
+                    name: _allItems[index]["name"]!,
+                    image: _allItems[index]["image"]!,
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  ListTile _drawerItem(IconData icon, String title, String routeName) {
     return ListTile(
       leading: Icon(icon, color: Colors.deepPurple),
       title: Text(title),
       onTap: () {
-        Navigator.pop(context); // ปิด Drawer ก่อน
+        Navigator.pop(context);
         Navigator.pushNamed(context, routeName);
       },
-    );
-  }
-}
-
-class BestSellerItem extends StatelessWidget {
-  final String name;
-  final String image;
-
-  const BestSellerItem({Key? key, required this.name, required this.image})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 150,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Colors.white,
-      ),
-      padding: EdgeInsets.all(10),
-      child: Column(
-        children: <Widget>[
-          Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
-          SizedBox(height: 5),
-          Image.network(image, height: 100),
-        ],
-      ),
     );
   }
 }

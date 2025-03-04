@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         '/status': (context) => StatusPage(),
         '/categories': (context) => CategoryPage(),
         '/promotions': (context) => PromotionsPage(),
-        '/bestsellers': (context) => BestSellersPage(),
+        '/bestsellers': (context) => Bestseller(image: 'image', name: 'name',),
         '/beautytips': (context) => BeautyTipsPage(),
         '/about': (context) => AboutUsPage(),
         '/profile': (context) => MyProfilePage(),

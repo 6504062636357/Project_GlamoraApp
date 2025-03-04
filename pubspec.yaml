@@ -36,6 +36,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   image_picker: ^1.1.2
+  http: ^1.3.0
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +66,7 @@ flutter:
     - assets/images/gorgina_lipstick.jpg
     - assets/images/shiseido_lipstick.jpg
     - assets/images/lisa_lipstick.webp
+    - assets/images/rare_beauty.jpg
 
     # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

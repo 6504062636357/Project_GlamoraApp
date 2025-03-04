@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:untitled5/page/BeautyTips.dart';
 import 'package:untitled5/page/BestSeller.dart';
 import 'package:untitled5/page/Categoties.dart';
@@ -12,6 +13,8 @@ import 'package:untitled5/page/HomePage.dart';
 import 'package:untitled5/categoties/makeup/Rarbaeuty.dart'; // Import the ProductDetailPage
 import 'package:untitled5/page/CartProvider.dart';
 import 'package:untitled5/page/FavoritesProviderPage.dart';
+
+import 'Favoritepage.dart';
 
 void main() {
   runApp(
@@ -44,5 +47,19 @@ class MyApp extends StatelessWidget {
             FavoritesPage(), // Add the route for favorites page
       },
     );
+  }
+}
+
+class Bestseller extends StatefulWidget {
+  const Bestseller({super.key, required String name, required String image});
+
+  @override
+  State<Bestseller> createState() => _BestsellerState();
+}
+
+class _BestsellerState extends State<Bestseller> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }

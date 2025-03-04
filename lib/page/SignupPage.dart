@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'Register.dart'; // นำเข้า RegisterPage
-
+import 'package:http/http.dart' as http;
 class SignUpPage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
