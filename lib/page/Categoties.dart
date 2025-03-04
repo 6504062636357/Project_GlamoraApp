@@ -71,15 +71,23 @@ class CategoryPage extends StatelessWidget {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       margin: EdgeInsets.only(bottom: 16),
-      child: ListTile(
-        leading: Icon(iconData, size: 40, color: Colors.deepPurple),
-        title: Text(
-          title,
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      child: Container(
+        width: double.infinity, // Set the width of the card
+        height: 150, // Set the height of the card
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                title,
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center, // Center the text
+              ),
+              SizedBox(height: 8), // Add some space between text and icon
+              Icon(iconData, size: 40, color: Colors.deepPurple),
+            ],
+          ),
         ),
-        onTap: () {
-          // ใส่โค้ดนำทางไปหน้าหมวดหมู่นั้นๆ
-        },
       ),
     );
   }

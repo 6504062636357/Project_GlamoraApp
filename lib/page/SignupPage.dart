@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'Register.dart'; // นำเข้า RegisterPage
-
+import 'package:http/http.dart' as http;
 class SignUpPage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +59,8 @@ class SignUpPage extends StatelessWidget {
                   ),
                   filled: true,
                   fillColor: Colors.white,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 ),
               ),
               SizedBox(height: 20),
@@ -79,7 +81,8 @@ class SignUpPage extends StatelessWidget {
                   ),
                   filled: true,
                   fillColor: Colors.white,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 ),
               ),
               SizedBox(height: 20),
@@ -96,7 +99,8 @@ class SignUpPage extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/HomePage'); // ไปหน้า HomePage
+                    Navigator.pushNamed(
+                        context, '/HomePage'); // ไปหน้า HomePage
                   },
                   child: Text('Log In', style: TextStyle(color: Colors.white)),
                 ),
